@@ -11,22 +11,22 @@ type Person struct {
 	Age  int
 }
 
-func TestInit(t *testing.T) {
-	err := Init(Config{
-		URI:    "mongodb://127.0.0.1:27047",
+func TestMongoInit(t *testing.T) {
+	m, err := Init(Config{
+		URI:    "mongodb://127.0.0.1:27017",
 		Dbname: "test",
 	})
 	if err != nil {
 		t.Fatal(err)
 	}
-	one, err := DB().Collection("test").InsertOne(context.Background(), bson.D{{"foo", "bar"}, {"hello", "world"}, {"pi", 3.14159}})
+	one, err := m.Collection("test").InsertOne(context.Background(), bson.D{{"test", "mongo"}, {"hello", "world"}, {"pi", 3.14159}})
 	if err != nil {
 		t.Fatal(err)
 	}
 	t.Log(one)
 
-	one, err = DB().Collection("test").InsertOne(context.Background(), Person{
-		Name: "jac",
+	one, err = m.Collection("test").InsertOne(context.Background(), Person{
+		Name: "test",
 		Age:  10,
 	})
 	if err != nil {

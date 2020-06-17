@@ -4,22 +4,31 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-var c *mongo.Client
-var db *mongo.Database
-
-func Client() *mongo.Client {
-	return c
+type Mongo struct {
+	c  *mongo.Client
+	db *mongo.Database
 }
 
-func DB() *mongo.Database {
-	return db
+func (m *Mongo) Client() *mongo.Client {
+	return m.c
 }
 
-func Init(conf Config) (err error) {
+func (m *Mongo) DB() *mongo.Database {
+	return m.db
+}
+
+func Init(conf Config) (m *Mongo, err error) {
 	_Config = conf
-	c, db, err = New(conf)
+	c, db, err := New(conf)
 	if err != nil {
-		return err
+		return
 	}
-	return nil
+	return &Mongo{
+		c:  c,
+		db: db,
+	}, nil
+}
+
+func (m *Mongo) Collection(name string) *mongo.Collection {
+	return m.DB().Collection(name)
 }

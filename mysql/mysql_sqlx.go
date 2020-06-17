@@ -13,9 +13,9 @@ func New(conf Config) (*sqlx.DB, error) {
 	if err != nil {
 		return nil, err
 	}
-	db.SetMaxIdleConns(conf.MaxIdleConns)
-	db.SetMaxOpenConns(conf.MaxOpenConns)
-	db.SetConnMaxLifetime(conf.KeepAlive)
+	db.SetMaxIdleConns(conf.MaxIdleConns) //设置连接池中的保持连接的最大连接数
+	db.SetMaxOpenConns(conf.MaxOpenConns) //设置打开数据库的最大连接数
+	db.SetConnMaxLifetime(conf.KeepAlive) //设置连接可以被使用的最长有效时间，如果过期，连接将被拒绝
 	err = db.Ping()
 	if err != nil {
 		return nil, err
