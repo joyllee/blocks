@@ -1,4 +1,4 @@
-module local/blocks
+module blocks
 
 go 1.14
 
