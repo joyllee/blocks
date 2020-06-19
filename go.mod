@@ -1,4 +1,4 @@
-module blocks
+module github.com/joyllee/blocks
 
 go 1.14
 
