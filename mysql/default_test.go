@@ -15,12 +15,12 @@ func TestInit(t *testing.T) {
 	err := Init(Config{
 		DataSource: DataSource{
 			Driver:   "mysql",
-			Username: "dev",
-			Password: "Dev!@#$Pass",
+			Username: "root",
+			Password: "123456",
 			Protocol: "tcp",
-			Address:  "10.18.1.31",
+			Address:  "127.0.0.1",
 			Port:     "3306",
-			Dbname:   "saas",
+			Dbname:   "test",
 			Params:   "charset=utf8mb4&sql_notes=false&sql_notes=false&timeout=90s&collation=utf8mb4_general_ci&parseTime=True&loc=Local",
 		},
 		MaxIdleConns: 100,

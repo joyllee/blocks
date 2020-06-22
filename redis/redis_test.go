@@ -23,7 +23,7 @@ func TestInitRedisCluster(t *testing.T) {
 
 func TestInitRedis(t *testing.T) {
 	InitRedis(Config{
-		Addresses: []string{"172.16.9.221:26379", "172.16.9.222:26379", "172.16.9.223:26379"},
+		Addresses: []string{"127.0.0.1:6379"},
 		PoolSize:  10,
 	})
 	result, err := Client().Set("hello", "single", 0).Result()
@@ -40,7 +40,7 @@ func TestInitRedis(t *testing.T) {
 
 func TestInitFailoverClient(t *testing.T) {
 	InitFailoverRedis(Config{
-		Addresses:  []string{"172.16.9.221:26379", "172.16.9.222:26379", "172.16.9.223:26379"},
+		Addresses:  []string{"127.0.0.1:6379"},
 		PoolSize:   10,
 		ClientType: "failover",
 		MasterName: "mymaster",
