@@ -2,7 +2,6 @@ package ws
 
 import (
 	"github.com/joyllee/blocks"
-	"github.com/joyllee/blocks/logger"
 	"net/http"
 	"strings"
 	"sync"
@@ -37,7 +36,7 @@ func NewWS(ctx *blocks.HCtx, h http.Header) (wsIns *WsIns, err error) {
 		return
 	}
 	wsIns = &WsIns{
-		ctx:     ctx,
+		ctx:         ctx,
 		keepTimeout: 60,
 		mt:          new(sync.Mutex),
 	}
@@ -53,7 +52,7 @@ func NewWSWithUpgrader(ctx *blocks.HCtx, h http.Header, upgrader websocket.Upgra
 		return
 	}
 	wsIns = &WsIns{
-		ctx:     ctx,
+		ctx:         ctx,
 		keepTimeout: 60,
 	}
 	wsIns.ws = ws
@@ -78,8 +77,8 @@ FOR:
 		case <-time.After(wsIns.keepTimeout * time.Second):
 			err := wsIns.WritePingMessage()
 			if err != nil {
-				logger.Warnf("keep error: %v", err)
-				logger.Warn(wsIns.Close())
+				wsIns.ctx.Warnf("keep error: %v", err)
+				wsIns.ctx.Warn(wsIns.Close())
 				break FOR
 			}
 		}
@@ -123,15 +122,15 @@ func (wsIns *WsIns) IsWebSocketCloseError(err error) bool {
 	}
 	//服务器端或客户端close后，再对客户端写入，就会ErrCloseSent
 	if websocket.IsCloseError(err, close...) || err == websocket.ErrCloseSent {
-		logger.Infof("error: %v", err)
+		wsIns.ctx.Infof("error: %v", err)
 		return true
 	}
 	//服务器端close后，再对客户端读取，就会这个错误
 	if strings.Contains(err.Error(), "closed network") {
-		logger.Infof("error: %v", err)
+		wsIns.ctx.Infof("error: %v", err)
 		return true
 	}
 
-	logger.Warn(err)
+	wsIns.ctx.Warn(err)
 	return false
 }

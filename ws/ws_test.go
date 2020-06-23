@@ -1,10 +1,8 @@
 package ws
 
 import (
-	"context"
 	"encoding/json"
 	"github.com/joyllee/blocks"
-	"github.com/joyllee/blocks/logger"
 	"github.com/joyllee/blocks/utils"
 	"net/http"
 	"testing"
@@ -20,9 +18,6 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 	ctx := blocks.NewHTTPContext()
 	ctx.ResponseWriter = w
 	ctx.Request = r
-	c, cancelFunc := context.WithCancel(context.Background())
-	ctx.Ctx = c
-	ctx.Cancel = cancelFunc
 
 	//允许跨域
 	SetCheckOrigin(func(r *http.Request) bool {
@@ -37,7 +32,7 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 	go func() {
 		defer func() {
 			if err := recover(); err != nil {
-				logger.Warn(err, string(utils.GetStack()))
+				wsIns.ctx.Warn(err, string(utils.GetStack()))
 			}
 		}()
 		for {
@@ -58,7 +53,7 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 	for {
 		select {
 		case <-ctx.Ctx.Done():
-			logger.Info("ws is done")
+			wsIns.ctx.Info("ws is done")
 			return
 		default:
 			wsIns.WriteTextMessage(marshal)
