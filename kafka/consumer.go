@@ -1,12 +1,9 @@
 package kafka
 
 import (
-	"errors"
 	"github.com/Shopify/sarama"
 	"github.com/joyllee/blocks/logger"
 )
-
-var defaultConsumer      *consumer
 
 type (
 	consumer struct {

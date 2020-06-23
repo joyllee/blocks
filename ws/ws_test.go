@@ -53,7 +53,7 @@ func wsHandler(w http.ResponseWriter, r *http.Request) {
 	for {
 		select {
 		case <-ctx.Ctx.Done():
-			wsIns.ctx.Info("ws is done")
+			ctx.Info("ws is done")
 			return
 		default:
 			wsIns.WriteTextMessage(marshal)

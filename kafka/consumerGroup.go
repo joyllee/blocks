@@ -6,8 +6,6 @@ import (
 	"github.com/joyllee/blocks/logger"
 )
 
-var defaultConsumerGroup *consumerGroup
-
 type (
 	consumerGroup struct {
 		exec sarama.ConsumerGroup

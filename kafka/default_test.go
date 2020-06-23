@@ -74,3 +74,46 @@ func TestConsumerGroup(t *testing.T) {
 	}
 
 }
+
+type Person struct {
+	Name string
+	Age  uint8
+}
+
+func TestAsyncProducer(t *testing.T) {
+	InitDefaultAsyncProducer(Config{
+		Addresses: []string{"127.0.0.1:9092"},
+	})
+
+	go func() {
+		for {
+			e := <-AsyncProducer().Errors()
+			fmt.Printf("error: %v \n", e)
+		}
+	}()
+
+	for {
+		t := time.Now()
+		person := &Person{
+			Name: fmt.Sprintf("%d", t.UnixNano()),
+			Age:  uint8(t.Nanosecond()),
+		}
+		err := AsyncProducer().Send(context.WithValue(context.Background(), "traceID", "asdasd"), "person", person)
+		fmt.Println(err)
+	}
+}
+
+func TestSyncProducer(t *testing.T) {
+	InitDefaultSyncProducer(Config{
+		Addresses: []string{"127.0.0.1:9092"},
+	})
+
+	for {
+		t := <-time.After(200 * time.Millisecond)
+		person := &Person{
+			Name: fmt.Sprintf("%d", t.UnixNano()),
+			Age:  uint8(t.Nanosecond()),
+		}
+		fmt.Println(SyncProducer().Send(context.WithValue(context.Background(), "Trace-ID", "asdasd"), "person", person))
+	}
+}
