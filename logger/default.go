@@ -19,7 +19,11 @@ var opts struct {
 
 var logger = logrus.New()
 
-func InitLogger() {
+func InitLogger() *logrus.Logger {
+	return logger
+}
+
+func init() {
 	// init configs
 	if _, err := flags.Parse(&opts); err != nil {
 		panic(err)
