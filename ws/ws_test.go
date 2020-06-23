@@ -1,22 +1,29 @@
 package ws
 
 import (
+	"context"
 	"encoding/json"
 	"github.com/joyllee/blocks"
 	"github.com/joyllee/blocks/logger"
 	"github.com/joyllee/blocks/utils"
 	"net/http"
 	"testing"
+	"time"
 )
-func TestWsInit(t *testing.T)  {
-	http.HandleFunc("/ws",wsHandler)
-	http.ListenAndServe("0.0.0.0:7777",nil)
+
+func TestWsInit(t *testing.T) {
+	http.HandleFunc("/ws", wsHandler)
+	http.ListenAndServe("0.0.0.0:7777", nil)
 }
 
-func wsHandler(w http.ResponseWriter , r *http.Request)  {
+func wsHandler(w http.ResponseWriter, r *http.Request) {
 	ctx := blocks.NewHTTPContext()
 	ctx.ResponseWriter = w
 	ctx.Request = r
+	c, cancelFunc := context.WithCancel(context.Background())
+	ctx.Ctx = c
+	ctx.Cancel = cancelFunc
+
 	//允许跨域
 	SetCheckOrigin(func(r *http.Request) bool {
 		return true
@@ -48,6 +55,15 @@ func wsHandler(w http.ResponseWriter , r *http.Request)  {
 	}()
 
 	marshal, _ := json.Marshal("test")
-	wsIns.WriteTextMessage(marshal)
+	for {
+		select {
+		case <-ctx.Ctx.Done():
+			logger.Info("ws is done")
+			return
+		default:
+			wsIns.WriteTextMessage(marshal)
+			time.Sleep(5 * time.Second)
+		}
+	}
 
 }

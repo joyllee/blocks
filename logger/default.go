@@ -54,17 +54,19 @@ func InitLogger() {
 	case "debug":
 		logger.SetLevel(logrus.DebugLevel)
 		logger.SetOutput(os.Stderr)
+		// 显示行号等信息
+		logger.SetReportCaller(true)
 	case "info":
 		setNull()
 		logger.SetLevel(logrus.InfoLevel)
 		logger.SetOutput(os.Stderr)
+		logger.SetReportCaller(true)
 	case "warn":
 		setNull()
 		logger.SetLevel(logrus.WarnLevel)
 	case "errors":
 		setNull()
 		logger.SetLevel(logrus.ErrorLevel)
-		// 显示行号等信息
 		logger.SetReportCaller(true)
 	default:
 		setNull()
