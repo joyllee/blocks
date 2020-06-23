@@ -1,8 +1,0 @@
-mode: debug
-port: 8099
-
-logger:
-  loglevel: debug
-  logdir: /opt/log
-  logfilename: demo.log
-  logformat: text

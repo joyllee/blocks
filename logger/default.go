@@ -3,6 +3,7 @@ package logger
 import (
 	"bufio"
 	"github.com/jessevdk/go-flags"
+	"github.com/joyllee/blocks/config"
 	rotatelogs "github.com/lestrrat/go-file-rotatelogs"
 	"github.com/rifflock/lfshook"
 	"github.com/sirupsen/logrus"
@@ -31,7 +32,7 @@ func init() {
 	loadConfigFile(opts.ConfigFile)
 
 	var logFormat logrus.Formatter
-	if ServerConfig.Logger.LogFormat == "json" {
+	if config.ServerConfig.Logger.LogFormat == "json" {
 		logFormat = &logrus.JSONFormatter{
 			TimestampFormat: "2006-01-02 15:04:05",
 		}
@@ -42,8 +43,8 @@ func init() {
 	}
 	logger.SetFormatter(logFormat)
 
-	baseLogPath := path.Join(ServerConfig.Logger.LogDir,
-		ServerConfig.Logger.LogFileName)
+	baseLogPath := path.Join(config.ServerConfig.Logger.LogDir,
+		config.ServerConfig.Logger.LogFileName)
 	writer, err := rotatelogs.New(
 		baseLogPath+".%Y%m%d",
 		rotatelogs.WithLinkName(baseLogPath),      // 生成软链，指向最新日志文件
@@ -54,7 +55,7 @@ func init() {
 		log.Println("config local file system logger errors")
 	}
 
-	switch ServerConfig.Logger.LogLevel {
+	switch config.ServerConfig.Logger.LogLevel {
 	case "debug":
 		logger.SetLevel(logrus.DebugLevel)
 		logger.SetOutput(os.Stderr)
@@ -104,7 +105,7 @@ func loadConfigFile(filePath string) {
 		logrus.Fatal("fail to read config", err)
 		panic(err)
 	}
-	if err := viper.Unmarshal(&ServerConfig); err != nil {
+	if err := viper.Unmarshal(&config.ServerConfig); err != nil {
 		logrus.Fatal("fail to unmarshal config", err)
 		panic(err)
 	}
