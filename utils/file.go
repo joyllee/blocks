@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"github.com/360EntSecGroup-Skylar/excelize"
 	"github.com/google/uuid"
 	"github.com/sirupsen/logrus"
 	"io/ioutil"
@@ -20,7 +21,7 @@ func WriteFile(file_path string, imageBase64 []byte) (result bool, file string, 
 			return false, "", err
 		}
 	}
-	file = filepath.Join(dir, uuid + ".jpg")
+	file = filepath.Join(dir, uuid+".jpg")
 	out, err := os.OpenFile(file, os.O_WRONLY|os.O_CREATE, 0666)
 	if err != nil {
 		return false, "", err
@@ -40,4 +41,19 @@ func IsFileExist(filename string) bool {
 		return false
 	}
 	return true
+}
+
+// 读取Excel第n列
+func ReadExcel(excelPath string, n int) (result []string, err error) {
+	xlsx, err := excelize.OpenFile(excelPath)
+	if err != nil {
+		os.Exit(1)
+		return result, err
+	}
+	rows := xlsx.GetRows(xlsx.GetSheetName(xlsx.GetActiveSheetIndex()))
+	result = make([]string, 0)
+	for _, row := range rows {
+		result = append(result, row[n])
+	}
+	return result, nil
 }
