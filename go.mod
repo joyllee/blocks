@@ -4,11 +4,12 @@ go 1.14
 
 require (
 	github.com/360EntSecGroup-Skylar/excelize v1.4.1 // indirect
-	github.com/Shopify/sarama v1.26.4 // indirect
-	github.com/go-redis/redis v6.15.8+incompatible // indirect
+	github.com/Shopify/sarama v1.26.4
+	github.com/go-redis/redis v6.15.8+incompatible
 	github.com/go-sql-driver/mysql v1.5.0
 	github.com/google/uuid v1.1.1
 	github.com/gorilla/websocket v1.4.2
+	github.com/hashicorp/consul/api v1.5.0
 	github.com/jessevdk/go-flags v1.4.0
 	github.com/jmoiron/sqlx v1.2.0
 	github.com/lestrrat/go-file-rotatelogs v0.0.0-20180223000712-d3151e2a480f
