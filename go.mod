@@ -3,7 +3,7 @@ module github.com/joyllee/blocks
 go 1.14
 
 require (
-	github.com/360EntSecGroup-Skylar/excelize v1.4.1 // indirect
+	github.com/360EntSecGroup-Skylar/excelize v1.4.1
 	github.com/Shopify/sarama v1.26.4
 	github.com/go-redis/redis v6.15.8+incompatible
 	github.com/go-sql-driver/mysql v1.5.0
