@@ -3,7 +3,7 @@ package kafka
 import (
 	"context"
 	"github.com/Shopify/sarama"
-	config2 "github.com/joyllee/blocks/config"
+	"github.com/joyllee/blocks/logger"
 )
 
 type syncProducer struct {
@@ -16,7 +16,7 @@ func SyncProducer() *syncProducer {
 
 func InitDefaultSyncProducer(config Config) {
 	if len(config.Addresses) <= 0 {
-		config2.Fatal(ErrKafkaAddressesNil)
+		logger.Fatal(ErrKafkaAddressesNil)
 	}
 	defaultSyncProducer = &syncProducer{newSyncProducer(config)}
 }
@@ -47,7 +47,7 @@ func newSyncProducer(config Config) sarama.SyncProducer {
 	//}
 	producer, err := sarama.NewSyncProducer(config.Addresses, saramaConf)
 	if err != nil {
-		config2.Fatal("Failed to start Sarama producer:", err)
+		logger.Fatal("Failed to start Sarama producer:", err)
 	}
 	return producer
 }

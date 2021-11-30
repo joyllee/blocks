@@ -1,10 +1,8 @@
 package redis
 
 type Config struct {
-	Addresses  []string
-	PoolSize   int
-	ClientType string // "" or "cluster" or "failover"
-	MasterName string
-	DB         int
-	Password   string
+	Addresses []string
+	PoolSize  int
+	DB        int
+	Password  string
 }
