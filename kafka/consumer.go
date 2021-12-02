@@ -2,7 +2,7 @@ package kafka
 
 import (
 	"github.com/Shopify/sarama"
-	"github.com/joyllee/blocks/logger"
+	"log"
 )
 
 type (
@@ -17,7 +17,7 @@ func Consumer() *consumer {
 
 func InitDefaultConsumer(config Config) {
 	if len(config.Addresses) <= 0 {
-		logger.Fatal(ErrKafkaAddressesNil)
+		log.Fatal(ErrKafkaAddressesNil)
 	}
 	defaultConsumer = &consumer{newConsumer(config)}
 }
@@ -54,7 +54,7 @@ func newConsumer(config Config) sarama.Consumer {
 
 	client, err := sarama.NewConsumer(config.Addresses, saramaConf)
 	if err != nil {
-		logger.Fatal("Failed to creating consumer:", err)
+		log.Fatal("Failed to creating consumer:", err)
 	}
 	return client
 }

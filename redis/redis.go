@@ -3,7 +3,6 @@ package redis
 import (
 	"fmt"
 	"github.com/go-redis/redis"
-	"github.com/joyllee/blocks/logger"
 	"time"
 )
 
@@ -13,24 +12,17 @@ var (
 	defaultClient *redis.Client
 )
 
-func InitDefault(conf Config) {
-	_, err := InitRedis(conf)
-	if err != nil {
-		logger.Fatal(err)
-	}
-}
-
 // InitRedis init redis connection and client
-func InitRedis(conf Config) (*redis.Client, error) {
-	if len(conf.Addresses) <= 0 {
-		err := fmt.Errorf("single redis server is %s", conf.Addresses)
+func InitRedis(address []string, password string, db, poolSize int) (*redis.Client, error) {
+	if len(address) <= 0 {
+		err := fmt.Errorf("single redis server is %s", address)
 		return nil, err
 	}
 	defaultClient = redis.NewClient(&redis.Options{
-		Addr:               conf.Addresses[0],
-		Password:           conf.Password,
-		DB:                 conf.DB,
-		PoolSize:           conf.PoolSize,
+		Addr:               address[0],
+		Password:           password,
+		DB:                 db,
+		PoolSize:           poolSize,
 		DialTimeout:        10 * time.Second,
 		ReadTimeout:        30 * time.Second,
 		WriteTimeout:       30 * time.Second,

@@ -1,0 +1,37 @@
+mode: debug
+port: 8099
+
+logger:
+  loglevel: debug
+  logdir: ./
+  logfilename: demo.log
+  logformat: text
+  logwriter: false
+
+kafka:
+  addresses: [ "127.0.0.1:9092" ]
+  consumergroupid: test
+  consumeroffsetsinitial: newest
+
+redis:
+  addresses: [ "127.0.0.1:6379" ]
+  db: 0
+  poolsize: 10
+
+mongo:
+  uri: mongodb://127.0.0.1:27017
+  dbname: test
+
+mysql:
+  datasource:
+    driver: mysql
+    username: root
+    password: 123456
+    protocol: tcp
+    address: 127.0.0.1
+    port: 3306
+    dbname: test
+    params: charset=utf8mb4&sql_notes=false&sql_notes=false&timeout=90s&collation=utf8mb4_general_ci&parseTime=True&loc=Local
+  maxidleconns: 100,
+  maxopenconns: 1000,
+  keepalive: 3600,

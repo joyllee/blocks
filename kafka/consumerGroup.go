@@ -3,7 +3,7 @@ package kafka
 import (
 	"context"
 	"github.com/Shopify/sarama"
-	"github.com/joyllee/blocks/logger"
+	"log"
 )
 
 type (
@@ -33,7 +33,7 @@ func ConsumerGroup() *consumerGroup {
 
 func InitDefaultConsumerGroup(config Config) {
 	if len(config.Addresses) <= 0 {
-		logger.Fatal(ErrKafkaAddressesNil)
+		log.Fatal(ErrKafkaAddressesNil)
 	}
 	defaultConsumerGroup = &consumerGroup{newConsumerGroup(config)}
 }
@@ -63,7 +63,7 @@ func newConsumerGroup(config Config) sarama.ConsumerGroup {
 	}
 	client, err := sarama.NewConsumerGroup(config.Addresses, config.ConsumerGroupId, saramaConf)
 	if err != nil {
-		logger.Fatal("Failed to creating consumer group:", err)
+		log.Fatal("Failed to creating consumer group:", err)
 	}
 	return client
 }

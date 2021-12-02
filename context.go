@@ -1,4 +1,4 @@
-package blocks
+package main
 
 import (
 	"context"
@@ -8,9 +8,9 @@ import (
 )
 
 type HCtx struct {
-	Ctx    context.Context    `json:"-"`
-	Cancel context.CancelFunc `json:"-"`
-	HTTPStatus int `json:"-"`
+	Ctx        context.Context    `json:"-"`
+	Cancel     context.CancelFunc `json:"-"`
+	HTTPStatus int                `json:"-"`
 
 	ResponseWriter http.ResponseWriter `json:"-"`
 	Request        *http.Request       `json:"-"`
@@ -25,7 +25,6 @@ func NewHTTPContext() *HCtx {
 
 	return hCtx
 }
-
 
 func (hCtx *HCtx) init(w http.ResponseWriter, r *http.Request) {
 	hCtx.HTTPStatus = http.StatusOK

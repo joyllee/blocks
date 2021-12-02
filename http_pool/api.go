@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/joyllee/blocks/logger"
 	"github.com/valyala/fasthttp"
 	"net/http"
 	"runtime/debug"
@@ -20,7 +19,6 @@ func Call(header map[string]string, uri, method string, req, resp interface{}) e
 			//logger.Error(nil, "%v", err)
 			debug.PrintStack()
 		}
-		logger.Debug(nil, "fast Call: %v CostTime: %v", uri, time.Since(t))
 	}(time.Now())
 
 	request.Header.Set("Cache-Control", "no-cache, no-store, must-revalidate")
@@ -37,13 +35,11 @@ func Call(header map[string]string, uri, method string, req, resp interface{}) e
 	request.SetRequestURI(uri)
 	reqBody, err := json.Marshal(req)
 	if err != nil {
-		logger.Error(nil, "%v", err)
 		return err
 	}
 	request.SetBody(reqBody)
 
 	if err = Client().Do(request, response); err != nil {
-		logger.Error(nil, "%v", err)
 		return err
 	}
 	if response.StatusCode() != http.StatusOK {
@@ -51,11 +47,9 @@ func Call(header map[string]string, uri, method string, req, resp interface{}) e
 			uri, response.StatusCode, response.String())
 	}
 	if len(response.Body()) == 0 {
-		logger.Error(nil, "missing request body")
 		return errors.New("missing request body")
 	}
 	if err = json.Unmarshal(response.Body(), &resp); err != nil {
-		logger.Error(nil, "%v", err)
 		return err
 	}
 
