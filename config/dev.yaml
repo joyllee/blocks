@@ -23,15 +23,7 @@ mongo:
   dbname: test
 
 mysql:
-  datasource:
-    driver: mysql
-    username: root
-    password: 123456
-    protocol: tcp
-    address: 127.0.0.1
-    port: 3306
-    dbname: test
-    params: charset=utf8mb4&sql_notes=false&sql_notes=false&timeout=90s&collation=utf8mb4_general_ci&parseTime=True&loc=Local
-  maxidleconns: 100,
-  maxopenconns: 1000,
-  keepalive: 3600,
+  db-mysql:
+    url: root:jun123456@(127.0.0.1:3306)/db1?charset=utf8mb4&parseTime=True&loc=Local
+    max-idle-conns: 5
+    max-open-conns: 200

@@ -19,6 +19,7 @@ type Config struct {
 		LogWriter   bool   `default:"true" yaml:"logwriter"`
 	} `yaml:"logger"`
 	Redis RedisConfig `yaml:"redis"`
+	Mysql MysqlConfig `yaml:"mysql"`
 }
 
 //LoadConfig 获取配置数据
