@@ -2,7 +2,6 @@ package ws
 
 import (
 	"encoding/json"
-	"github.com/joyllee/blocks"
 	"github.com/joyllee/blocks/utils"
 	"net/http"
 	"testing"

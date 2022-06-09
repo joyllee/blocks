@@ -15,8 +15,9 @@ kafka:
 
 redis:
   addresses: [ "127.0.0.1:6379" ]
-  db: 0
   poolsize: 10
+  db: 0
+  password: ""
 
 mongo:
   uri: mongodb://127.0.0.1:27017
@@ -24,6 +25,6 @@ mongo:
 
 mysql:
   db-mysql:
-    url: root:jun123456@(127.0.0.1:3306)/db1?charset=utf8mb4&parseTime=True&loc=Local
+    url: root:jun123456@(127.0.0.1:3306)/test?charset=utf8mb4&parseTime=True&loc=Local
     max-idle-conns: 5
     max-open-conns: 200
